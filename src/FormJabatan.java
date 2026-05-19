@@ -1,18 +1,19 @@
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
 public class FormJabatan extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormJabatan.class.getName());
 
     Connection con;
     Statement stm;
     PreparedStatement pstm;
-    ResultSet  rs;
+    ResultSet rs;
     String sql;
+
     public FormJabatan() {
         initComponents();
-       // styleComponents();
         koneksi DBS = new koneksi();
         DBS.config();
         con = DBS.con;
@@ -21,89 +22,46 @@ public class FormJabatan extends javax.swing.JFrame {
         kosong();
     }
 
-    /*private void styleComponents() {
-        // Colors
-        java.awt.Color lightBlue = new java.awt.Color(227, 242, 253);
-        java.awt.Color oceanBlue = new java.awt.Color(25, 118, 210);
-        java.awt.Color deepBlue = new java.awt.Color(13, 71, 161);
-        java.awt.Color white = java.awt.Color.WHITE;
-
-        // Panel Background
-        jPanel1.setBackground(lightBlue);
-
-        // Labels styling
-        javax.swing.JLabel[] labels = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7};
-        for (javax.swing.JLabel label : labels) {
-            label.setForeground(deepBlue);
-            label.setFont(new java.awt.Font("Segoe UI", 1, 12));
-        }
-
-        // Buttons styling
-        javax.swing.JButton[] buttons = {tambah, update, hapus, keluar, cari};
-        for (javax.swing.JButton btn : buttons) {
-            btn.setBackground(oceanBlue);
-            btn.setForeground(white);
-            btn.setFocusPainted(false);
-            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        }
-        keluar.setBackground(new java.awt.Color(211, 47, 47)); // Red for exit
-
-        // Table styling
-        tabel.getTableHeader().setBackground(oceanBlue);
-        tabel.getTableHeader().setForeground(white);
-        tabel.getTableHeader().setFont(new java.awt.Font("Segoe UI", 1, 12));
-        tabel.setSelectionBackground(new java.awt.Color(187, 222, 251));
-        tabel.setSelectionForeground(deepBlue);
-        tabel.setRowHeight(25);
-
-        // TextFields
-        javax.swing.JTextField[] fields = {jabatan, njabatan, pokok, tunjangan, anak, kesehatan, dinas};
-        for (javax.swing.JTextField field : fields) {
-            field.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createLineBorder(oceanBlue, 1),
-                javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5)
-            ));
-        }
-    }
-*/
     private void load_table() {
-    DefaultTableModel tableModel = new DefaultTableModel();
-    tableModel.addColumn("ID JABATAN");
-    tableModel.addColumn("NAMA JABATAN");
-    tableModel.addColumn("GAJI POKOK");
-    tableModel.addColumn("TUNJANGAN JABATAN");
-    tableModel.addColumn("TUNJANGAN ANAK");
-    tableModel.addColumn("TUNJANGAN KESEHATAN");
-    tableModel.addColumn("PERJALANAN DINAS");
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.addColumn("ID JABATAN");
+        tableModel.addColumn("NAMA JABATAN");
+        tableModel.addColumn("GAJI POKOK");
+        tableModel.addColumn("TUNJANGAN JABATAN");
+        tableModel.addColumn("TUNJANGAN ANAK");
+        tableModel.addColumn("TUNJANGAN KESEHATAN");
+        tableModel.addColumn("PERJALANAN DINAS");
 
-    try {
-        sql = "SELECT * FROM tabel_jabatan ORDER BY id_jabatan ASC";
-        rs = stm.executeQuery(sql);
-        while (rs.next()) {
-            tableModel.addRow(new Object[]{
-                rs.getString(1),
-                rs.getString(2),
-                rs.getString(3),
-                rs.getString(4),
-                rs.getString(5),
-                rs.getString(6),
-                rs.getString(7)
-            });
+        try {
+            sql = "SELECT * FROM tabel_jabatan ORDER BY id_jabatan ASC";
+            rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                tableModel.addRow(new Object[]{
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7)
+                });
+            }
+            tabel.setModel(tableModel);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
-        tabel.setModel(tableModel);
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
     }
-}
+
     private void kosong() {
-    jabatan.setText(null);
-    njabatan.setText(null);
-    pokok.setText(null);
-    tunjangan.setText(null);
-    anak.setText(null);
-    kesehatan.setText(null);
-    dinas.setText(null);
-}
+        jabatan.setText(null);
+        njabatan.setText(null);
+        pokok.setText(null);
+        tunjangan.setText(null);
+        anak.setText(null);
+        kesehatan.setText(null);
+        dinas.setText(null);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -381,27 +339,27 @@ public class FormJabatan extends javax.swing.JFrame {
     private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
         // TODO add your handling code here:
         String id = jabatan.getText().trim();
-        if(id.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boleh kosong");
+        if (id.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Id Nggak Boleh kosong");
             return;
         }
-        try{
+        try {
             sql = "select * from tabel_jabatan where id_jabatan = ?";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, id);
             rs = pstm.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 njabatan.setText(rs.getString("jabatan"));
                 pokok.setText(rs.getString("gaji_pokok"));
                 tunjangan.setText(rs.getString("tunj_jabatan"));
                 anak.setText(rs.getString("tunj_anak"));
                 kesehatan.setText(rs.getString("tunj_kesehatan"));
                 dinas.setText(rs.getString("perj_dinas"));
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Data nggak ketemu");
                 kosong();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         load_table();
@@ -416,23 +374,23 @@ public class FormJabatan extends javax.swing.JFrame {
         String tanak = anak.getText().trim();
         String tkesehatan = kesehatan.getText().trim();
         String pdinas = dinas.getText().trim();
-        if(id.isEmpty() || nama.isEmpty() || gaji.isEmpty() || tunjanganj.isEmpty() || tanak.isEmpty() || tkesehatan.isEmpty() || pdinas.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boelh kosong");
+        if (id.isEmpty() || nama.isEmpty() || gaji.isEmpty() || tunjanganj.isEmpty() || tanak.isEmpty() || tkesehatan.isEmpty() || pdinas.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Kolom Field Nggak Boleh kosong");
             return;
         }
-        try{
+        try {
             sql = "INSERT INTO tabel_jabatan (id_jabatan, jabatan, gaji_pokok, tunj_jabatan, tunj_anak, tunj_kesehatan, perj_dinas) VALUES (?, ?, ?, ?, ?, ?, ?)";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1,id);
-            pstm.setString(2,nama);
-            pstm.setString(3,gaji);
-            pstm.setString(4,tunjanganj);
-            pstm.setString(5,tanak);
-            pstm.setString(6,tkesehatan);
+            pstm.setString(1, id);
+            pstm.setString(2, nama);
+            pstm.setString(3, gaji);
+            pstm.setString(4, tunjanganj);
+            pstm.setString(5, tanak);
+            pstm.setString(6, tkesehatan);
             pstm.setString(7, pdinas);
             pstm.execute();
             JOptionPane.showMessageDialog(null, "Berhasil");
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         load_table();
@@ -441,18 +399,18 @@ public class FormJabatan extends javax.swing.JFrame {
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
-       String id = jabatan.getText().trim();
+        String id = jabatan.getText().trim();
         String nama = njabatan.getText().trim();
         String gaji = pokok.getText().trim();
         String tunjanganj = tunjangan.getText().trim();
         String tanak = anak.getText().trim();
         String tkesehatan = kesehatan.getText().trim();
         String pdinas = dinas.getText().trim();
-        if(id.isEmpty() || nama.isEmpty() || gaji.isEmpty() || tunjanganj.isEmpty() || tanak.isEmpty() || tkesehatan.isEmpty() || pdinas.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boelh kosong");
+        if (id.isEmpty() || nama.isEmpty() || gaji.isEmpty() || tunjanganj.isEmpty() || tanak.isEmpty() || tkesehatan.isEmpty() || pdinas.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Kolom Field Nggak Boleh kosong");
             return;
         }
-        try{
+        try {
             sql = "UPDATE tabel_jabatan SET jabatan = ?, gaji_pokok = ?, tunj_jabatan = ?, tunj_anak = ?, tunj_kesehatan = ?, perj_dinas = ? WHERE id_jabatan = ?";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, nama);
@@ -464,7 +422,7 @@ public class FormJabatan extends javax.swing.JFrame {
             pstm.setString(7, id);
             pstm.execute();
             JOptionPane.showMessageDialog(null, "Berhasil");
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         load_table();
@@ -473,20 +431,20 @@ public class FormJabatan extends javax.swing.JFrame {
 
     private void hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusActionPerformed
         // TODO add your handling code here:
-         String id = jabatan.getText().trim();
-        if(id.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boleh kosong");
+        String id = jabatan.getText().trim();
+        if (id.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Id Nggak Boleh kosong");
             return;
         }
-        try{
+        try {
             sql = "DELETE FROM tabel_jabatan WHERE id_jabatan= ?";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, id);
             pstm.execute();
-             JOptionPane.showMessageDialog(null, "Data Berhasil Di hapus");
-             load_table();
-             kosong();
-        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Data Berhasil Di hapus");
+            load_table();
+            kosong();
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_hapusActionPerformed
@@ -499,16 +457,15 @@ public class FormJabatan extends javax.swing.JFrame {
 
     private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
         // TODO add your handling code here:
-       int row = tabel.getSelectedRow();
-       if (row != -1){
-           jabatan.setText(tabel.getValueAt(row, 0).toString());
-           njabatan.setText(tabel.getValueAt(row, 1).toString());
-           pokok.setText(tabel.getValueAt(row, 2).toString());
-           tunjangan.setText(tabel.getValueAt(row, 3).toString());
-           anak.setText(tabel.getValueAt(row, 4).toString());
-           kesehatan.setText(tabel.getValueAt(row, 5).toString());
-           dinas.setText(tabel.getValueAt(row, 6).toString());
-       }
+        int row = tabel.getSelectedRow();
+        jabatan.setText(tabel.getValueAt(row, 0).toString());
+        njabatan.setText(tabel.getValueAt(row, 1).toString());
+        pokok.setText(tabel.getValueAt(row, 2).toString());
+        tunjangan.setText(tabel.getValueAt(row, 3).toString());
+        anak.setText(tabel.getValueAt(row, 4).toString());
+        kesehatan.setText(tabel.getValueAt(row, 5).toString());
+        dinas.setText(tabel.getValueAt(row, 6).toString());
+
     }//GEN-LAST:event_tabelMouseClicked
 
     /**

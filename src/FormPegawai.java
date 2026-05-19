@@ -1,5 +1,4 @@
 import java.sql.*;
-import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.table.*;
 public class FormPegawai extends javax.swing.JFrame {
@@ -13,7 +12,6 @@ public class FormPegawai extends javax.swing.JFrame {
     String sql;
     public FormPegawai() {
         initComponents();
-       // styleComponents();
         koneksi DBS = new koneksi();
         DBS.config();
         con = DBS.con;
@@ -22,51 +20,6 @@ public class FormPegawai extends javax.swing.JFrame {
         kosong();
     }
 
-   /* private void styleComponents() {
-        // Colors
-        java.awt.Color lightBlue = new java.awt.Color(227, 242, 253);
-        java.awt.Color oceanBlue = new java.awt.Color(25, 118, 210);
-        java.awt.Color deepBlue = new java.awt.Color(13, 71, 161);
-        java.awt.Color white = java.awt.Color.WHITE;
-
-        // Panel Background
-        jPanel1.setBackground(lightBlue);
-
-        // Labels styling
-        javax.swing.JLabel[] labels = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6};
-        for (javax.swing.JLabel label : labels) {
-            label.setForeground(deepBlue);
-            label.setFont(new java.awt.Font("Segoe UI", 1, 12));
-        }
-
-        // Buttons styling
-        javax.swing.JButton[] buttons = {tambah, update, hapus, close, cari};
-        for (javax.swing.JButton btn : buttons) {
-            btn.setBackground(oceanBlue);
-            btn.setForeground(white);
-            btn.setFocusPainted(false);
-            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        }
-        close.setBackground(new java.awt.Color(211, 47, 47)); // Red for exit
-
-        // Table styling
-        tabel.getTableHeader().setBackground(oceanBlue);
-        tabel.getTableHeader().setForeground(white);
-        tabel.getTableHeader().setFont(new java.awt.Font("Segoe UI", 1, 12));
-        tabel.setSelectionBackground(new java.awt.Color(187, 222, 251));
-        tabel.setSelectionForeground(deepBlue);
-        tabel.setRowHeight(25);
-
-        // TextFields
-        javax.swing.JTextField[] fields = {id, divisi, jabatan, nama, alamat, usia};
-        for (javax.swing.JTextField field : fields) {
-            field.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createLineBorder(oceanBlue, 1),
-                javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5)
-            ));
-        }
-    }
-*/
      private void load_table() {
     DefaultTableModel tableModel = new DefaultTableModel();
     tableModel.addColumn("ID PEGAWAI");
@@ -365,7 +318,7 @@ public class FormPegawai extends javax.swing.JFrame {
         String ialamat = alamat.getText().trim();
         String iusia = usia.getText().trim();
         if(idivisi.isEmpty() || inama.isEmpty() || ialamat.isEmpty() || iusia.isEmpty() || idpeg.isEmpty() || ijabatan.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boelh kosong");
+            JOptionPane.showMessageDialog(null, "Kolom Field Nggak Boleh kosong");
             return;
         }
         try{
@@ -395,7 +348,7 @@ public class FormPegawai extends javax.swing.JFrame {
         String ialamat = alamat.getText().trim();
         String iusia = usia.getText().trim();
         if(idivisi.isEmpty() || inama.isEmpty() || ialamat.isEmpty() || iusia.isEmpty() || idpeg.isEmpty() || ijabatan.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boelh kosong");
+            JOptionPane.showMessageDialog(null, "Kolom Field Nggak Boleh kosong");
             return;
         }
         try{
@@ -421,7 +374,7 @@ public class FormPegawai extends javax.swing.JFrame {
         // TODO add your handling code here:
         String idpeg = id.getText().trim();
         if(idpeg.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boleh kosong");
+            JOptionPane.showMessageDialog(null, "Id Nggak Boleh kosong");
             return;
         }
         try{
@@ -447,7 +400,7 @@ public class FormPegawai extends javax.swing.JFrame {
         // TODO add your handling code here:
         String idpeg = id.getText().trim();
         if(idpeg.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boleh kosong");
+            JOptionPane.showMessageDialog(null, "Id Nggak Boleh kosong");
             return;
         }
         try{
@@ -473,7 +426,7 @@ public class FormPegawai extends javax.swing.JFrame {
 
     private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
         // TODO add your handling code here:
-        int row = tabel.rowAtPoint(evt.getPoint());
+        int row = tabel.getSelectedRow();
         id.setText(tabel.getValueAt(row, 0).toString());
         divisi.setText(tabel.getValueAt(row, 1).toString());
         jabatan.setText(tabel.getValueAt(row, 2).toString());

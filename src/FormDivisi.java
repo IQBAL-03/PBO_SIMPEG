@@ -1,8 +1,9 @@
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
 public class FormDivisi extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormDivisi.class.getName());
 
     Connection con;
@@ -10,9 +11,9 @@ public class FormDivisi extends javax.swing.JFrame {
     PreparedStatement pstm;
     ResultSet rs;
     String sql;
+
     public FormDivisi() {
         initComponents();
-      //  styleComponents();
         koneksi DBS = new koneksi();
         DBS.config();
         con = DBS.con;
@@ -21,60 +22,15 @@ public class FormDivisi extends javax.swing.JFrame {
         kosong();
     }
 
-   /* private void styleComponents() {
-        // Colors
-        java.awt.Color lightBlue = new java.awt.Color(227, 242, 253);
-        java.awt.Color oceanBlue = new java.awt.Color(25, 118, 210);
-        java.awt.Color deepBlue = new java.awt.Color(13, 71, 161);
-        java.awt.Color white = java.awt.Color.WHITE;
-
-        // Panel Background
-        jPanel1.setBackground(lightBlue);
-
-        // Labels styling
-        javax.swing.JLabel[] labels = {jLabel1, jLabel2, jLabel3};
-        for (javax.swing.JLabel label : labels) {
-            label.setForeground(deepBlue);
-            label.setFont(new java.awt.Font("Segoe UI", 1, 12));
-        }
-
-        // Buttons styling
-        javax.swing.JButton[] buttons = {tambah, update, hapus, keluar, cari};
-        for (javax.swing.JButton btn : buttons) {
-            btn.setBackground(oceanBlue);
-            btn.setForeground(white);
-            btn.setFocusPainted(false);
-            btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        }
-        keluar.setBackground(new java.awt.Color(211, 47, 47)); // Red for exit
-
-        // Table styling
-        tabel.getTableHeader().setBackground(oceanBlue);
-        tabel.getTableHeader().setForeground(white);
-        tabel.getTableHeader().setFont(new java.awt.Font("Segoe UI", 1, 12));
-        tabel.setSelectionBackground(new java.awt.Color(187, 222, 251));
-        tabel.setSelectionForeground(deepBlue);
-        tabel.setRowHeight(25);
-
-        // TextFields
-        javax.swing.JTextField[] fields = {id, divisi, honor};
-        for (javax.swing.JTextField field : fields) {
-            field.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createLineBorder(oceanBlue, 1),
-                javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5)
-            ));
-        }
-    }
-*/
-    private void load_table(){
+    private void load_table() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Id Divisi");
         model.addColumn("Nama Divisi");
         model.addColumn("Honor Divisi");
-        try{
+        try {
             sql = "select * from tabel_divisi order by id_divisi asc";
             rs = stm.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 model.addRow(new Object[]{
                     rs.getString(1),
                     rs.getString(2),
@@ -82,17 +38,17 @@ public class FormDivisi extends javax.swing.JFrame {
                 });
             }
             tabel.setModel(model);
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan" + e.getMessage());
         }
     }
-    
-    private void kosong(){
+
+    private void kosong() {
         id.setText(null);
         divisi.setText(null);
         honor.setText(null);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -298,11 +254,11 @@ public class FormDivisi extends javax.swing.JFrame {
         String idiv = id.getText().trim();
         String ndivisi = divisi.getText().trim();
         String hdivisi = honor.getText().trim();
-         if(idiv.isEmpty() || ndivisi.isEmpty() || hdivisi.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boleh kosong");
+        if (idiv.isEmpty() || ndivisi.isEmpty() || hdivisi.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Id, Nama Divisi dan Honor Divisi Nggak Boleh kosong");
             return;
         }
-        try{
+        try {
             sql = "insert into tabel_divisi (`id_divisi`, `nama_divisi`, `honor_divisi`) VALUES (?, ?, ?)";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, idiv);
@@ -310,7 +266,7 @@ public class FormDivisi extends javax.swing.JFrame {
             pstm.setString(3, hdivisi);
             pstm.execute();
             JOptionPane.showMessageDialog(null, "Berhasil Menambahakan Data");
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Gagal Menambahkan Data Karena " + e.getMessage());
         }
         load_table();
@@ -322,19 +278,19 @@ public class FormDivisi extends javax.swing.JFrame {
         String idiv = id.getText().trim();
         String ndivisi = divisi.getText().trim();
         String hdivisi = honor.getText().trim();
-         if(idiv.isEmpty() || ndivisi.isEmpty() || hdivisi.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boelh kosong");
+        if (idiv.isEmpty() || ndivisi.isEmpty() || hdivisi.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Id, Nama Divisi dan Honor Divisi Nggak Boleh kosong");
             return;
         }
-         try{
-             sql = "UPDATE tabel_divisi SET nama_divisi = ?, honor_divisi = ? WHERE id_divisi = ?";
-             pstm = con.prepareStatement(sql);
-             pstm.setString(1,ndivisi);
-             pstm.setString(2,hdivisi);
-             pstm.setString(3,idiv);
-             pstm.execute();
+        try {
+            sql = "UPDATE tabel_divisi SET nama_divisi = ?, honor_divisi = ? WHERE id_divisi = ?";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, ndivisi);
+            pstm.setString(2, hdivisi);
+            pstm.setString(3, idiv);
+            pstm.execute();
             JOptionPane.showMessageDialog(null, "Berhasil");
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         load_table();
@@ -344,19 +300,19 @@ public class FormDivisi extends javax.swing.JFrame {
     private void hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusActionPerformed
         // TODO add your handling code here:
         String idiv = id.getText().trim();
-        if(idiv.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boelh kosong");
+        if (idiv.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Id Nggak Boleh kosong");
             return;
         }
-        try{
+        try {
             sql = "DELETE FROM tabel_divisi WHERE id_divisi= ?";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, idiv);
             pstm.execute();
-             JOptionPane.showMessageDialog(null, "Data Berhasil Di hapus");
-             load_table();
-             kosong();
-        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Data Berhasil Di hapus");
+            load_table();
+            kosong();
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_hapusActionPerformed
@@ -370,37 +326,36 @@ public class FormDivisi extends javax.swing.JFrame {
     private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
         // TODO add your handling code here:
         int row = tabel.getSelectedRow();
-        if(row != -1){
-            id.setText(tabel.getValueAt(row, 0).toString());
-            divisi.setText(tabel.getValueAt(row, 1).toString());
-            honor.setText(tabel.getValueAt(row, 2).toString());
-        }
+        id.setText(tabel.getValueAt(row, 0).toString());
+        divisi.setText(tabel.getValueAt(row, 1).toString());
+        honor.setText(tabel.getValueAt(row, 2).toString());
+
     }//GEN-LAST:event_tabelMouseClicked
 
     private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
         // TODO add your handling code here:
         String idiv = id.getText().trim();
-        if(idiv.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nggak Boleh kosong");
+        if (idiv.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Id Nggak Boleh kosong");
             return;
         }
-        
-    try{
-        sql = "select * from tabel_divisi where id_divisi = ?";
-        pstm = con.prepareStatement(sql);
-        pstm.setString(1, idiv);
-        rs = pstm.executeQuery();
-        if(rs.next()){
-            divisi.setText(rs.getString("nama_divisi"));
-            honor.setText(rs.getString("honor_divisi"));
-        }else{
-            JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan");
-            kosong();
+
+        try {
+            sql = "select * from tabel_divisi where id_divisi = ?";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, idiv);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                divisi.setText(rs.getString("nama_divisi"));
+                honor.setText(rs.getString("honor_divisi"));
+            } else {
+                JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan");
+                kosong();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }catch(Exception e){
-        JOptionPane.showMessageDialog(this, e.getMessage());
-    }
-    load_table();
+        load_table();
     }//GEN-LAST:event_cariActionPerformed
 
     /**
