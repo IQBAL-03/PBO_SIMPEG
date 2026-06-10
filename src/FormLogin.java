@@ -21,7 +21,9 @@ public class FormLogin extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
@@ -33,6 +35,9 @@ public class FormLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Form Login");
+
+        jPanel2.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -91,7 +96,7 @@ public class FormLogin extends javax.swing.JFrame {
                         .addComponent(btn_close)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 288, Short.MAX_VALUE)
+                .addGap(0, 276, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(267, 267, 267))
         );
@@ -112,64 +117,73 @@ public class FormLogin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_login)
                     .addComponent(btn_close))
-                .addContainerGap(400, Short.MAX_VALUE))
+                .addContainerGap(388, Short.MAX_VALUE))
         );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 56;
+        gridBagConstraints.ipady = 382;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel2.add(jPanel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
+    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
         // TODO add your handling code here:
-        txtPass.requestFocus();
-    }//GEN-LAST:event_txtUserActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btn_closeActionPerformed
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        // TODO add your handling code here:
+        String user = txtUser.getText().trim();
+        String pass = txtPass.getText().trim();
+        if(user.isEmpty() || pass.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Username Atau Password Jangan Kosong");
+            return;
+        }
+        try{
+            sql = "select id, username from tabel_admin where username = ? and password =  ?";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, user);
+            pstm.setString(2, pass);
+            rs = pstm.executeQuery();
+            if(rs.next()){
+                JOptionPane.showMessageDialog(this, "Berhasil Login");
+                this.dispose();
+                new FormMenu().setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "Username Atau Password Salah");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_btn_loginActionPerformed
 
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
         // TODO add your handling code here:
         btn_login.doClick();
     }//GEN-LAST:event_txtPassActionPerformed
 
-    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-         // TODO add your handling code here:
-         String user = txtUser.getText().trim();
-         String pass = txtPass.getText().trim();
-         if(user.isEmpty() || pass.isEmpty()){
-             JOptionPane.showMessageDialog(this, "Username Atau Password Jangan Kosong");
-             return;
-         }
-         try{
-             sql = "select id, username from tabel_admin where username = ? and password =  ?";
-             pstm = con.prepareStatement(sql);
-             pstm.setString(1, user);
-             pstm.setString(2, pass);
-             rs = pstm.executeQuery();
-             if(rs.next()){
-                 JOptionPane.showMessageDialog(this, "Berhasil Login");
-                 this.dispose();
-                 new FormMenu().setVisible(true);
-             }else{
-                 JOptionPane.showMessageDialog(this, "Username Atau Password Salah");
-             }
-         }catch(Exception e){
-             JOptionPane.showMessageDialog(null, e.getMessage());
-         }
-    }//GEN-LAST:event_btn_loginActionPerformed
-
-    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btn_closeActionPerformed
+        txtPass.requestFocus();
+    }//GEN-LAST:event_txtUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +217,7 @@ public class FormLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
