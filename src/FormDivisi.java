@@ -316,7 +316,10 @@ public class FormDivisi extends javax.swing.JFrame {
             kosong();
         } catch (Exception e) {
             if (e.getMessage() != null && e.getMessage().contains("a foreign key constraint fails")) {
-                JOptionPane.showMessageDialog(null, "Data tidak bisa dihapus karena masih berelasi dengan data di tabel lain.");
+                 JOptionPane.showMessageDialog(null,
+                        "Data tidak bisa dihapus karena masih berelasi dengan data di tabel lain.",
+                        "Peringatan",
+                        JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
             }
