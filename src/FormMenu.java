@@ -42,7 +42,7 @@ public class FormMenu extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Pilih Menu Untuk Pindah Halaman");
+        jLabel1.setText("Pilih Menu di Atas Untuk Pindah Halaman");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -51,12 +51,12 @@ public class FormMenu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(176, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(183, 183, 183))
+                .addGap(176, 176, 176))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(165, 165, 165)
+                .addGap(188, 188, 188)
                 .addComponent(jLabel1)
                 .addContainerGap(1128, Short.MAX_VALUE))
         );
